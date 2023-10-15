@@ -25,6 +25,21 @@ namespace BanDienThoai.Controllers
             PagedList<TDanhMucSp> lst = new PagedList<TDanhMucSp>(lstsanpham, pageNumber, pageSize);
             return View(lst);
         }
+        public IActionResult Search(string searchString, int? page)
+        {
+            var products = db.TDanhMucSps.AsQueryable(); // Lấy danh sách sản phẩm từ database
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower();
+                products = products.Where(p => p.TenSp.ToLower().Contains(searchString)); // Tìm sản phẩm theo tên
+            }
+
+            int pageSize = 8;
+            int pageNumber = page ?? 1;
+            var pagedList = products.ToPagedList(pageNumber, pageSize); // Sử dụng thư viện PagedList để phân trang
+
+            return View(pagedList);
+        }
 
         public IActionResult SanPhamTheoLoai(String maloai, int? page)
         {

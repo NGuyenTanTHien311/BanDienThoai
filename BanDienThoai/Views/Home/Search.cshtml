@@ -1,0 +1,30 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+
+@{
+    ViewData["Title"] = "ProductDetail";
+    Layout = "~/Views/Shared/_LayoutSearch.cshtml";
+}
+@model X.PagedList.IPagedList<TDanhMucSp>
+
+<!-- Hiển thị danh sách sản phẩm -->
+@foreach (var item in Model)
+{
+    @await Html.PartialAsync("PartialSanPham", item)
+}
+
+
+<!-- Hiển thị phân trang -->
+<div class="pagination-container">
+    @Html.PagedListPager(Model, page => Url.Action("Search", new { page, searchString = ViewBag.SearchString }),
+    new PagedListRenderOptions
+    {
+    LiElementClasses = new List<string> { "page-item" },
+    PageClasses = new List<string> { "page-link" },
+    ContainerDivClasses = new List<string> { "pagination" },
+    UlElementClasses = new List<string> { "pagination" }
+    })
+</div>
