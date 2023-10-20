@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using  BanDienThoai.Models;
 
+
 namespace BanDienThoai.Controllers
 {
     public class AccessController : Controller
     {
         QlbanVaLiContext db = new QlbanVaLiContext();
+        
         [HttpGet]
-
         public IActionResult Login()
         {
             if (HttpContext.Session.GetString("UserName") == null)
             {
                 return View();
-
             }
             else
             {

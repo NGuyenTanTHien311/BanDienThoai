@@ -2,14 +2,80 @@
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
-<html>
+<html lang="vi">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Đăng Nhập</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+            .input-group input {
+                width: 250px;
+                padding: 10px;
+                font-size: 16px;
+            }
+
+            .input-group button {
+                padding: 10px 20px;
+                font-size: 16px;
+                background-color: #4caf50;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h2>Đăng Nhập</h2>
+        <div class="input-group">
+            <input type="text" id="username" placeholder="Tên người dùng" required>
+        </div>
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Mật khẩu" required>
+        </div>
+        <div class="input-group">
+            <button onclick="validateLogin()">Đăng Nhập</button>
+        </div>
+    </div>
+
+    <script>
+        function validateLogin() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // Kiểm tra tên người dùng và mật khẩu ở đây (có thể sử dụng AJAX để kiểm tra với máy chủ)
+            // Đây chỉ là một ví dụ đơn giản, không thực hiện kiểm tra thực tế.
+
+            if (username === "admin" && password === "admin123") {
+                alert("Đăng nhập thành công!");
+                // Chuyển hướng hoặc thực hiện các hành động sau khi đăng nhập thành công.
+            } else {
+                alert("Sai tên người dùng hoặc mật khẩu. Vui lòng thử lại.");
+            }
+        }
+    </script>
 </body>
 </html>
+
