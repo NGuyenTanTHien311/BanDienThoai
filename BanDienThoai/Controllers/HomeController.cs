@@ -12,7 +12,7 @@ namespace BanDienThoai.Controllers
         QlbanVaLiContext db=new QlbanVaLiContext(); 
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger)//ấnndu
         {
             _logger = logger;
         }
