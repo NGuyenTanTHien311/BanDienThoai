@@ -1,4 +1,5 @@
 ﻿using BanDienThoai.Models;
+using BanDienThoai.Models.Authentication;
 using BanDienThoai.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace BanDienThoai.Controllers
         {
             _logger = logger;
         }
+       // [Authentication]
 
         public IActionResult Index(int ? page)
         {
