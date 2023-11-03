@@ -1,5 +1,7 @@
+using BanDienThoai.Controllers;
 using BanDienThoai.Models;
 using BanDienThoai.Repository;
+
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,11 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
 var connectionString = builder.Configuration.GetConnectionString("QlbanVaLiContext");
 builder.Services.AddDbContext<QlbanVaLiContext>(x => x.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<ILoaiSpRepository, LoaiSpRepository>();
 builder.Services.AddSession();
+
 
 var app = builder.Build();
 
