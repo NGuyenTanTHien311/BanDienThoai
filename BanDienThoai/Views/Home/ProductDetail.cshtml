@@ -39,14 +39,19 @@
                     <p>
                         @Model.danhMucSp.GioiThieuSp
                     </p>
-                    <div class="product__details__quantity">
-                        <div class="quantity">
-                            <div class="pro-qty">
-                                <input type="text" value="1">
+                    <div>
+                        <form method="post" asp-controller="addcart" asp-action="Cart">
+                            <input type="hidden" name="MaSp" value="@Model.danhMucSp.MaSp" />
+                            <div class="product__details__quantity">
+                                <div class="quantity">
+                                    <div class="pro-qty">
+                                        <input type="number" name="quantity" value="1" min="1">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <button type="submit" class="btn btn-secondary">Thêm vào giỏ hàng</button>
+                        </form>
                     </div>
-                    <a href="#" class="primary-btn">ADD TO CARD</a>
                     <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                     <ul>
                         <li><b>Availability</b> <span>In Stock</span></li>

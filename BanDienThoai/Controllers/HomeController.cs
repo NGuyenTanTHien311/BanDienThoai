@@ -1,14 +1,11 @@
 ﻿using BanDienThoai.Models;
-using BanDienThoai.Models.Authentication;
 using BanDienThoai.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Diagnostics;
 using X.PagedList;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System.Globalization;
+
 
 
 namespace BanDienThoai.Controllers
@@ -36,6 +33,7 @@ namespace BanDienThoai.Controllers
             var lstsanpham=db.TDanhMucSps.AsNoTracking().OrderBy(x=>x.TenSp);
             PagedList<TDanhMucSp> lst = new PagedList<TDanhMucSp>(lstsanpham, pageNumber, pageSize);
             return View(lst);
+
         }
         public IActionResult Search(string searchString, int? page)
         {
@@ -80,7 +78,7 @@ namespace BanDienThoai.Controllers
             return View(homeProductDetailViewModel);
         }
 
-            public IActionResult Privacy()
+        public IActionResult Privacy()
         {
             return View();
         }
@@ -102,35 +100,45 @@ namespace BanDienThoai.Controllers
             }
             return new List<CartItem>();
         }
-
+        [HttpPost]
         [Route("addcart/{MaSp}")]
-        public IActionResult AddToCart(string MaSp)
+        public IActionResult AddToCart(string MaSp, int quantity)
         {
+            // Lấy thông tin sản phẩm dựa trên MaSp
             var product = db.TDanhMucSps.SingleOrDefault(x => x.MaSp == MaSp);
+
             if (product == null)
             {
                 return NotFound("Không có sản phẩm");
             }
 
+            // Lấy danh sách ảnh sản phẩm
+            var AnhDaiDien = db.TDanhMucSps.Where(x => x.MaSp == MaSp).ToList();
+
             // Xử lý đưa vào Cart
             List<CartItem> cart = GetCartItems();
             var cartItem = cart.Find(p => p.Product.MaSp == MaSp);
+
             if (cartItem != null)
             {
-                // Sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng lên 1
-                cartItem.Quantity++;
+                // Sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng lên quantity
+                cartItem.Quantity += quantity;
+                // Gán danh sách ảnh sản phẩm
+                cartItem.AnhDaiDien = AnhDaiDien;
             }
             else
             {
                 // Sản phẩm chưa tồn tại trong giỏ hàng, thêm mới
-                cart.Add(new CartItem { Quantity = 1, Product = product });
+                cart.Add(new CartItem { Quantity = quantity, Product = product, AnhDaiDien = AnhDaiDien });
             }
 
             // Lưu giỏ hàng vào Session
-            SaveCartSession(cart);
-            // Chuyển đến trang hiện thị Cart
-            return RedirectToAction(nameof(Cart));
+            SaveCartSession(cart); ;
+
+            // Chuyển đến trang hiển thị Cart hoặc trang chi tiết sản phẩm
+            return RedirectToAction(nameof(Cart)); // Hoặc chuyển đến trang chi tiết sản phẩm hoặc trang khác
         }
+
         // Lưu Cart (Danh sách CartItem) vào session
         void SaveCartSession(List<CartItem> cartItems)
         {
@@ -148,12 +156,13 @@ namespace BanDienThoai.Controllers
 
             return RedirectToAction(nameof(Cart));
         }
-
+        
+        [Route("/Cart", Name = "Cart")]
         public IActionResult Cart()
         {
-            
-            
-            return View();
+
+            var cartItems = GetCartItems();
+            return View(cartItems);
         }
 
         public IActionResult Checkout()
@@ -163,7 +172,5 @@ namespace BanDienThoai.Controllers
 
             return View();
         }
-
-
     }
 }
