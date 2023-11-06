@@ -147,16 +147,24 @@ namespace BanDienThoai.Controllers
             session.SetString(CARTKEY, jsoncart);
         }
 
-        [Route("/removecart/{productid:int}", Name = "removecart")]
-        public IActionResult RemoveCart([FromRoute] string MaSp)
+        
+        [Route("/removecart/{MaSp}", Name = "removecart")]
+        public IActionResult RemoveCart([FromRoute] String MaSp)
         {
-            var product = ShoppingCart.FirstOrDefault(p => p.MaSp == MaSp);
-            if (product != null)
-                ShoppingCart.Remove(product); // Xóa sản phẩm khỏi giỏ hàng
+            var cart = GetCartItems();
+            var cartItem = cart.Find(p => p.Product.MaSp == MaSp);
 
+            if (cartItem != null)
+            {
+                // Sản phẩm tồn tại trong giỏ hàng, xóa nó ra khỏi giỏ hàng
+                cart.Remove(cartItem);
+            }
+
+            SaveCartSession(cart);
+
+            // Chuyển đến trang giỏ hàng
             return RedirectToAction(nameof(Cart));
         }
-        
         [Route("/Cart", Name = "Cart")]
         public IActionResult Cart()
         {
