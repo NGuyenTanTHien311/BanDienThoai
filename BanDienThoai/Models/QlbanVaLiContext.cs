@@ -209,11 +209,7 @@ public partial class QlbanVaLiContext : DbContext
             entity.Property(e => e.MaChatLieu)
                 .HasMaxLength(25)
                 .IsUnicode(false)
-                .IsFixedLength();
-            entity.Property(e => e.MaDacTinh)
-                .HasMaxLength(25)
-                .IsUnicode(false)
-                .IsFixedLength();
+                .IsFixedLength();          
             entity.Property(e => e.MaDt)
                 .HasMaxLength(25)
                 .IsUnicode(false)
@@ -238,10 +234,6 @@ public partial class QlbanVaLiContext : DbContext
             entity.Property(e => e.TenSp)
                 .HasMaxLength(150)
                 .HasColumnName("TenSP");
-            entity.Property(e => e.Website)
-                .HasMaxLength(155)
-                .IsUnicode(false)
-                .IsFixedLength();
 
             entity.HasOne(d => d.MaChatLieuNavigation).WithMany(p => p.TDanhMucSps)
                 .HasForeignKey(d => d.MaChatLieu)

@@ -23,15 +23,15 @@ public partial class TDanhMucSp
 
     public string? MaNuocSx { get; set; }
 
-    public string? MaDacTinh { get; set; }
+  
 
-    public string? Website { get; set; }
+    
 
     public double? ThoiGianBaoHanh { get; set; }
 
     public string? GioiThieuSp { get; set; }
 
-    public double? ChietKhau { get; set; }
+
 
     public string? MaLoai { get; set; }
 
