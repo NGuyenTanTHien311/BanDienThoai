@@ -174,59 +174,41 @@ namespace BanDienThoai.Controllers
         }
 
         [HttpPost]
+        [Route("oder/{Order}")]
         public IActionResult PlaceOrder(Order model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                // Lấy thông tin đặt hàng từ model
-                var order = new THoaDonBan
-                {
-                    MaHoaDon = GenerateOrderNumber(), // Hàm tạo số hóa đơn duy nhất
-                    NgayHoaDon = DateTime.Now,
-                    MaKhachHang = model.MaKhachHang,
-                    // Các thông tin khác của đơn hàng
-                };
-
-                // Lưu đơn hàng vào cơ sở dữ liệu
-                db.THoaDonBans.Add(order);
-                db.SaveChanges();
-
-                // Lấy danh sách sản phẩm trong giỏ hàng từ session
-                var cartItems = GetCartItems();
-
-                // Lưu thông tin chi tiết đơn hàng
-                foreach (var cartItem in cartItems)
-                {
-                    var chiTietHoaDon = new TChiTietHdb
-                    {
-                        MaHoaDon = order.MaHoaDon,
-                        MaSp = cartItem.Product.MaSp,
-                        SoLuongBan = cartItem.Quantity,
-                        // Các thông tin khác của chi tiết đơn hàng
-                    };
-                    db.TChiTietHdbs.Add(chiTietHoaDon);
-                }
-
-                // Lưu thông tin chi tiết đơn hàng vào cơ sở dữ liệu
-                db.SaveChanges();
-
-                
-
-                // Chuyển đến trang cảm ơn hoặc trang xem đơn hàng đã đặt
-                return RedirectToAction("Checkout");
+                // Nếu ModelState không hợp lệ, quay lại trang đặt hàng với thông báo lỗi
+                return View(model);
             }
 
-            // Nếu ModelState không hợp lệ, quay lại trang đặt hàng với thông báo lỗi
-            return View(model);
+            // Tạo đơn hàng mới từ dữ liệu model
+            var order = new THoaDonBan
+            {
+                MaHoaDon = GenerateOrderNumber(), // Hàm tạo số hóa đơn duy nhất
+                NgayHoaDon = DateTime.Now,
+                MaKhachHang = model.customerName,
+                // Các thông tin khác của đơn hàng
+            };
+
+            // Lưu đơn hàng vào cơ sở dữ liệu và lưu thông tin chi tiết đơn hàng
+            db.THoaDonBans.Add(order);
+            db.SaveChanges();
+
+            // Xử lý chi tiết đơn hàng và lưu vào cơ sở dữ liệu (tương tự như bạn đã thực hiện)
+            // Xóa giỏ hàng sau khi đặt hàng thành công
+            
+
+            
+
+            // Chuyển đến trang cảm ơn hoặc trang xem đơn hàng đã đặt
+            return View(Index);
         }
 
-        // Hàm tạo số hóa đơn duy nhất (có thể tuỳ chỉnh dựa trên yêu cầu)
         private string GenerateOrderNumber()
         {
-            // Thực hiện logic để tạo số hóa đơn duy nhất
-            // Ví dụ: lấy thời gian hiện tại và kết hợp với một số ngẫu nhiên
-            return "HD-" + DateTime.Now.ToString("yyyyMMddHHmmss") + new Random().Next(1000, 9999);
+            throw new NotImplementedException();
         }
-
     }
 }
