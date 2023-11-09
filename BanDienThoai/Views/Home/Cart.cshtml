@@ -52,7 +52,16 @@
         </tr>
     </table>
 
-    <a asp-controller="Home" asp-action="Checkout" class="btn btn-success">Đặt Hàng</a>
+    <form id="checkoutForm" method="post" action="/Home/Checkout">
+        <!-- Các trường dữ liệu cần thiết, ví dụ: -->
+        <input type="text" name="customerName" placeholder="Tên khách hàng" required>
+        <input type="text" name="shippingAddress" placeholder="Địa chỉ giao hàng" required>
+        <input type="text" name="phoneNumber" placeholder="Số Điện thoai" required>
+
+        <!-- Các trường dữ liệu khác cần thiết -->
+        <!-- Nút "Đặt Hàng" -->
+        <button type="submit" class="btn btn-success"><a asp-controller="Home" asp-action="Checkoy" class="active">Đặt hàng</a></button>
+    </form>
 
     @section Scripts {
     <script>

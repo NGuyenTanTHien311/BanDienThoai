@@ -1,4 +1,9 @@
-﻿using FluentAssertions.Common;
+﻿using Microsoft.Extensions.Configuration;
+using BanDienThoai.Models;
+using FluentAssertions.Common;
+using Microsoft.EntityFrameworkCore;
+
+
 
 namespace BanDienThoai
 {
@@ -13,6 +18,10 @@ namespace BanDienThoai
                 cfg.Cookie.Name = "xuanthulab"; // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
                 cfg.IdleTimeout = new TimeSpan(0, 30, 0); // Thời gian tồn tại của Session
             });
+           
+                // ...
+           
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

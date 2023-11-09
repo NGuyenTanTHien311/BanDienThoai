@@ -173,12 +173,60 @@ namespace BanDienThoai.Controllers
             return View(cartItems);
         }
 
-        public IActionResult Checkout()
+        [HttpPost]
+        public IActionResult PlaceOrder(Order model)
         {
-            // Implement your checkout process using the shopping cart service
-            // Redirect to a thank you page or order summary page
+            if (ModelState.IsValid)
+            {
+                // Lấy thông tin đặt hàng từ model
+                var order = new THoaDonBan
+                {
+                    MaHoaDon = GenerateOrderNumber(), // Hàm tạo số hóa đơn duy nhất
+                    NgayHoaDon = DateTime.Now,
+                    MaKhachHang = model.MaKhachHang,
+                    // Các thông tin khác của đơn hàng
+                };
 
-            return View();
+                // Lưu đơn hàng vào cơ sở dữ liệu
+                db.THoaDonBans.Add(order);
+                db.SaveChanges();
+
+                // Lấy danh sách sản phẩm trong giỏ hàng từ session
+                var cartItems = GetCartItems();
+
+                // Lưu thông tin chi tiết đơn hàng
+                foreach (var cartItem in cartItems)
+                {
+                    var chiTietHoaDon = new TChiTietHdb
+                    {
+                        MaHoaDon = order.MaHoaDon,
+                        MaSp = cartItem.Product.MaSp,
+                        SoLuongBan = cartItem.Quantity,
+                        // Các thông tin khác của chi tiết đơn hàng
+                    };
+                    db.TChiTietHdbs.Add(chiTietHoaDon);
+                }
+
+                // Lưu thông tin chi tiết đơn hàng vào cơ sở dữ liệu
+                db.SaveChanges();
+
+                
+
+                // Chuyển đến trang cảm ơn hoặc trang xem đơn hàng đã đặt
+                return RedirectToAction("Checkout");
+            }
+
+            // Nếu ModelState không hợp lệ, quay lại trang đặt hàng với thông báo lỗi
+            return View(model);
         }
+
+        // Hàm tạo số hóa đơn duy nhất (có thể tuỳ chỉnh dựa trên yêu cầu)
+        private string GenerateOrderNumber()
+        {
+            // Thực hiện logic để tạo số hóa đơn duy nhất
+            // Ví dụ: lấy thời gian hiện tại và kết hợp với một số ngẫu nhiên
+            return "HD-" + DateTime.Now.ToString("yyyyMMddHHmmss") + new Random().Next(1000, 9999);
+        }
+
     }
 }

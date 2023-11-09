@@ -23,15 +23,9 @@ public partial class TDanhMucSp
 
     public string? MaNuocSx { get; set; }
 
-  
-
-    
-
     public double? ThoiGianBaoHanh { get; set; }
 
     public string? GioiThieuSp { get; set; }
-
-
 
     public string? MaLoai { get; set; }
 

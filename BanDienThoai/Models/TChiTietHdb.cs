@@ -5,6 +5,8 @@ namespace BanDienThoai.Models;
 
 public partial class TChiTietHdb
 {
+    public string MaSp { get; set; } = null!;
+
     public string MaHoaDon { get; set; } = null!;
 
     public string MaChiTietSp { get; set; } = null!;
