@@ -65,7 +65,15 @@ namespace BanDienThoai.Areas.Admin.Controllers
             return View(sanPham);
         }
         #endregion
-      
+        [Route("QuanLyDonHang")]
+        public ActionResult QuanLyDonHang(int? page)
+        {
+            int pageSize = 14;
+            int pageNumber = page == null || page <= 0 ? 1 : page.Value;
+            var lstsanpham = db.THoaDonBans.AsNoTracking().OrderBy(x => x.MaHoaDon);
+            PagedList<THoaDonBan> lst = new PagedList<THoaDonBan>(lstsanpham, pageNumber, pageSize);
+            return View(lst);
+        }
     }
        
 
