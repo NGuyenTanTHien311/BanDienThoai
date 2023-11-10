@@ -52,16 +52,37 @@
         </tr>
     </table>
 
-    <form id="checkoutForm" method="post" action="/Home/Checkout">
-        <!-- Các trường dữ liệu cần thiết, ví dụ: -->
-        <input type="text" name="customerName" placeholder="Tên khách hàng" required>
-        <input type="text" name="shippingAddress" placeholder="Địa chỉ giao hàng" required>
-        <input type="text" name="phoneNumber" placeholder="Số Điện thoai" required>
-
+    
         <!-- Các trường dữ liệu khác cần thiết -->
         <!-- Nút "Đặt Hàng" -->
-        <button type="submit" class="btn btn-success"><a asp-controller="Home" asp-action="Checkoy" class="active">Đặt hàng</a></button>
+    <form asp-action="PlaceOrder" method="post">
+        <!-- Các trường thông tin đặt hàng -->
+        <div class="form-group">
+            <label for="customerName">Tên khách hàng:</label>
+            <input type="text" class="form-control" id="customerName" name="CustomerName" required>
+        </div>
+        <div class="form-group">
+            <label for="customerLogin">Tài khoản đăng nhập:</label>
+            <input type="text" class="form-control" id="customerLogin" name="CustomerLogin" required>
+        </div>
+        <div class="form-group">
+            <label for="shippingAddress">Địa chỉ giao hàng:</label>
+            <input type="text" class="form-control" id="shippingAddress" name="ShippingAddress" required>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Số điện thoại:</label>
+            <input type="tel" class="form-control" id="phoneNumber" name="PhoneNumber" required>
+        </div>
+        <div class="form-group">
+            <label for="orderDate">Ngày đặt hàng:</label>
+            <input type="date" class="form-control" id="orderDate" name="OrderDate" required>
+        </div>
+        <!-- ... các trường thông tin khác của đặt hàng ... -->
+        <!-- Nút "Đặt Hàng" -->
+        <button type="submit" class="btn btn-primary">Đặt hàng</button>
     </form>
+
+
 
     @section Scripts {
     <script>
