@@ -49,13 +49,17 @@ namespace BanDienThoai.Controllers
         {
             if (HttpContext.Session.GetString("UserName") == null)
             {
-                return View();
+                // Tạo đối tượng TKhachHang để truyền vào biểu mẫu đăng ký
+                TKhachHang khachHang = new TKhachHang();
+                return View(khachHang);
             }
             else
             {
                 return RedirectToAction("Index", "Home");
             }
         }
+ 
+
         [HttpPost]
         public IActionResult Register(TUser user)
         {

@@ -1,4 +1,4 @@
-﻿
+﻿@using BanDienThoai
 @{
     Layout = null;
 }
@@ -39,9 +39,11 @@
                                 <div class="form-group">
                                     @Html.PasswordFor(x => x.Password, new { @class = "form-control form-control-lg", placeholder = "Password", required = "required" })
                                 </div>
+
                                 <div class="mt-3">
                                     <button class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" type="submit">Register</button>
                                 </div>
+
                             }@*</form>*@
                         </div>
                     </div>

@@ -17,6 +17,7 @@ namespace BanDienThoai
             services.AddSession(cfg => { // Đăng ký dịch vụ Session
                 cfg.Cookie.Name = "xuanthulab"; // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
                 cfg.IdleTimeout = new TimeSpan(0, 30, 0); // Thời gian tồn tại của Session
+
             });
            
                 // ...

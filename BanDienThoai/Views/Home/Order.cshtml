@@ -1,0 +1,39 @@
+﻿@model THoaDonBan
+
+<h2>Order Confirmation</h2>
+
+<p>Thank you for your order! Below are the details of your order:</p>
+
+<div>
+    <strong>Order Number:</strong> @Model.MaHoaDon <br />
+    <strong>Date:</strong>
+    <strong>Payment Method:</strong> 
+
+    <h3>Order Details</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TChiTietHdbs)
+            {
+                <tr>
+                    <td>@item.MaSp</td>
+                    <td>@item.SoLuongBan</td>
+                    <td>@item.DonGiaBan</td>
+                    <td>@(item.SoLuongBan * item.DonGiaBan).ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <strong>Total:</strong> @Model.TongTienHd?.ToString("C") <br />
+        <strong>Note:</strong> @Model.GhiChu
+    </div>
+</div>
