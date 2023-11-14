@@ -65,6 +65,7 @@ namespace BanDienThoai.Areas.Admin.Controllers
             return View(sanPham);
         }
         #endregion
+        #region QuanLyDonHang
         [Route("QuanLyDonHang")]
         public ActionResult QuanLyDonHang(int? page)
         {
@@ -74,8 +75,19 @@ namespace BanDienThoai.Areas.Admin.Controllers
             PagedList<THoaDonBan> lst = new PagedList<THoaDonBan>(lstsanpham, pageNumber, pageSize);
             return View(lst);
         }
+        #endregion
+        #region QuanLyLoaiSP
+        [Route("QuanLyLoaiSP")]
+        public ActionResult QuanLyLoaiSP(int? page)
+        {
+            int pageSize = 10;
+            int pageNumber = page == null || page <= 0 ? 1 : page.Value;
+            var lstsanpham = db.TLoaiSps.AsNoTracking().OrderBy(x => x.MaLoai);
+            PagedList<TLoaiSp> lst = new PagedList<TLoaiSp>(lstsanpham, pageNumber, pageSize);
+            return View(lst);
+        }
+        #endregion
     }
-       
+
 
 }
-
