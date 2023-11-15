@@ -49,22 +49,28 @@ namespace BanDienThoai.Controllers
         {
             if (HttpContext.Session.GetString("UserName") == null)
             {
-                // Tạo đối tượng TKhachHang để truyền vào biểu mẫu đăng ký
-                TKhachHang khachHang = new TKhachHang();
-                return View(khachHang);
+                // Tạo đối tượng TUser để truyền vào biểu mẫu đăng ký
+                TUser user = new TUser();
+                return View(user);
             }
             else
             {
                 return RedirectToAction("Index", "Home");
             }
         }
- 
 
         [HttpPost]
         public IActionResult Register(TUser user)
         {
             if (ModelState.IsValid)
             {
+                // Kiểm tra xác nhận mật khẩu
+                if (user.Password != user.ConfirmPassword)
+                {
+                    ModelState.AddModelError(string.Empty, "The password and confirmation password do not match.");
+                    return View(user);
+                }
+
                 // Kiểm tra xem người dùng đã tồn tại chưa
                 var existingUser = db.TUsers.FirstOrDefault(x => x.Username == user.Username);
                 if (existingUser == null)
