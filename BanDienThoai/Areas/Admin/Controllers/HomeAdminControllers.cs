@@ -32,7 +32,7 @@ namespace BanDienThoai.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult ThemSanPhamMoi()
         {
-            ViewBag.MaChatLieu = new SelectList(db.TChatLieus.ToList(), "MaChatLieu", "ChatLieu");
+            
             ViewBag.MaHangSx = new SelectList(db.THangSxes.ToList(), "MaHangSx", "HangSx");
             ViewBag.MaLoai = new SelectList(db.TLoaiSps.ToList(), "MaLoai", "Loai");
             ViewBag.MaNuocSx = new SelectList(db.TQuocGia.ToList(), "MaNuoc", "TenNuoc");
@@ -42,22 +42,11 @@ namespace BanDienThoai.Areas.Admin.Controllers
         }
         [Route("ThemSanPhamMoi")]
         [HttpPost]
-        public ActionResult ThemSanPhamMoi(TDanhMucSp sanPham, IFormFile AnhDaiDien)
+        [ValidateAntiForgeryToken]
+        public ActionResult ThemSanPhamMoi(TDanhMucSp sanPham )
         {
             if (ModelState.IsValid)
             {
-                if (AnhDaiDien != null && AnhDaiDien.Length > 0)
-                {
-                    // Lưu trữ ảnh vào thư mục trên máy chủ hoặc lưu trữ trong cơ sở dữ liệu (tùy chọn của bạn)
-                    var imagePath = "/uploads/" + AnhDaiDien.FileName;
-                    using (var stream = new FileStream("wwwroot" + imagePath, FileMode.Create))
-                    {
-                        AnhDaiDien.CopyTo(stream);
-                    }
-                    // Lưu đường dẫn ảnh vào đối tượng sản phẩm
-                    sanPham.AnhDaiDien = imagePath;
-                }
-
                 db.TDanhMucSps.Add(sanPham);
                 db.SaveChanges();
                 return RedirectToAction("DanhMucSanPham");
@@ -65,8 +54,56 @@ namespace BanDienThoai.Areas.Admin.Controllers
             return View(sanPham);
         }
         #endregion
-        #region QuanLyDonHang
-        [Route("QuanLyDonHang")]
+        #region Chỉnh sửa sản phẩm
+        [Route("SuaSanPham")]
+        [HttpGet]
+        public ActionResult SuaSanPham(String maSanPham)
+        {
+
+            ViewBag.MaHangSx = new SelectList(db.THangSxes.ToList(), "MaHangSx", "HangSx");
+            ViewBag.MaLoai = new SelectList(db.TLoaiSps.ToList(), "MaLoai", "Loai");
+            ViewBag.MaNuocSx = new SelectList(db.TQuocGia.ToList(), "MaNuoc", "TenNuoc");
+            ViewBag.MaDt = new SelectList(db.TLoaiDts.ToList(), "MaDt", "TenLoai");
+            var sanPham = db.TDanhMucSps.Find(maSanPham);
+            return View(sanPham);
+
+        }
+        [Route("SuaSanPham")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SuaSanPham(TDanhMucSp sanPham)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(sanPham).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("DanhMucSanPham", "HomeAdminControllers");
+            }
+            return View(sanPham);
+        }
+        #endregion
+        #region xóa sản phẩm
+        [Route("XoaSanPham")]
+        [HttpGet]
+        public IActionResult XoaSanPham(string maSanPham)
+        {
+            TempData["Message"] = "";
+            var chiTietSanPhams = db.TChiTietSanPhams.Where(x => x.MaSp == maSanPham).ToList();
+            if (chiTietSanPhams.Count() > 0)
+            {
+                TempData["Message"] = "không xóa được sản phẩm này";
+                    return RedirectToAction("DanhMucSanPham", "HomeAdminControllers");
+            }
+            var anhSanPhams = db.TAnhSps.Where(x => x.MaSp == maSanPham);
+            if (anhSanPhams.Any()) db.RemoveRange(anhSanPhams);
+            db.Remove(db.TDanhMucSps.Find(maSanPham));
+            db.SaveChanges();
+            TempData["Message"] = "Sản phẩm đã được xóa";
+            return RedirectToAction("DanhMucSanPham", "HomeAdminControllers");
+        }
+            #endregion
+            #region QuanLyDonHang
+            [Route("QuanLyDonHang")]
         public ActionResult QuanLyDonHang(int? page)
         {
             int pageSize = 14;
@@ -85,6 +122,40 @@ namespace BanDienThoai.Areas.Admin.Controllers
             var lstsanpham = db.TLoaiSps.AsNoTracking().OrderBy(x => x.MaLoai);
             PagedList<TLoaiSp> lst = new PagedList<TLoaiSp>(lstsanpham, pageNumber, pageSize);
             return View(lst);
+        }
+        #endregion
+        #region Thêm Loại Sản PHẩm Mới
+        [Route ("ThemLoaiSPMoi")]
+        [HttpGet]
+        public ActionResult ThemLoaiSPMoi()
+        {
+            return View();
+        }
+        [Route("ThemLoaiSPMoi")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ThemLoaiSPMoi(TLoaiSp LoaiSP)
+        {
+            if (ModelState.IsValid)
+            {
+                db.TLoaiSps.Add(LoaiSP);
+                db.SaveChanges();
+                return RedirectToAction("QuanLyLoaiSP");
+            }
+            return View(LoaiSP);
+        }
+        #endregion
+        #region xóa loại SP
+        [Route("XoaLoaiSP")]
+        [HttpGet]
+        public IActionResult XoaLoaiSP(string LoaiSP)
+        {
+            TempData["Message"] = "";
+           
+            db.Remove(db.TLoaiSps.Find(LoaiSP));
+            db.SaveChanges();
+            TempData["Message"] = "Sản phẩm đã được xóa";
+            return RedirectToAction("QuanLyLoaiSP", "HomeAdminControllers");
         }
         #endregion
     }

@@ -55,8 +55,9 @@
     
         <!-- Các trường dữ liệu khác cần thiết -->
         <!-- Nút "Đặt Hàng" -->
-       <form asp-action="PlaceOrder" method="post">
-        <!-- Các trường thông tin đặt hàng -->
+            <!-- Existing form fields -->
+    <!-- Các trường dữ liệu khác cần thiết -->
+    <form asp-controller="Home" asp-action="PlaceOrder" method="post">
         <div class="form-group">
             <label for="customerName">Tên khách hàng:</label>
             <input type="text" class="form-control" id="customerName" name="CustomerName" required>
@@ -73,14 +74,12 @@
             <label for="phoneNumber">Số điện thoại:</label>
             <input type="tel" class="form-control" id="phoneNumber" name="PhoneNumber" required>
         </div>
-        <div class="form-group">
-            <label for="orderDate">Ngày đặt hàng:</label>
-            <input type="date" class="form-control" id="orderDate" name="OrderDate" required>
-        </div>
-        <!-- ... các trường thông tin khác của đặt hàng ... -->
+        <!-- ... các trường dữ liệu khác ... -->
         <!-- Nút "Đặt Hàng" -->
         <button type="submit" class="btn btn-primary">Đặt hàng</button>
     </form>
+
+
 
 
 

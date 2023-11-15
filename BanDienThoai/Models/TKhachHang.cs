@@ -15,7 +15,7 @@ public partial class TKhachHang
 
     public string? SoDienThoai { get; set; }
 
-    public string? DiaChi { get; set; }
+    public string?  DiaChi { get; set; }
 
     public byte? LoaiKhachHang { get; set; }
 

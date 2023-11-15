@@ -2,6 +2,7 @@
 using BanDienThoai.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using X.PagedList;
 
 namespace BanDienThoai.Controllers
@@ -132,7 +134,7 @@ namespace BanDienThoai.Controllers
             }
 
             SaveCartSession(cart);
-
+              
             return RedirectToAction(nameof(Cart));
         }
 
@@ -143,60 +145,25 @@ namespace BanDienThoai.Controllers
             return View(cartItems);
         }
 
-        [HttpPost]
-        public IActionResult Order(FormCollection collection)
+        // Trong HomeController
+     
+        public IActionResult PlaceOrder()
         {
-            // Retrieve customer information from the session or database
-            //TKhachHang kh = HttpContext.Session.Get<TKhachHang>("KhachHang");  // You need to implement this part
+            // Validate order details
+            
 
-            // Check if there are items in the cart
-            var cartItems = GetCartItems();
-            if (cartItems.Count == 0)
-            {
-                // Redirect to some error or empty cart page
-                return RedirectToAction("CartIsEmpty");
-            }
+            // Logic xử lý đơn đặt hàng
+            // Tạo đơn đặt hàng từ view model (orderViewModel)
+            
 
-            // Create a new order
-            THoaDonBan hdb = new THoaDonBan
-            {
-              //  MaKhachHang = kh.MaKhanhHang,
-                NgayHoaDon = DateTime.Now,
+            // Logic xử lý thanh toán (nếu cần)
 
-              // You might want to adjust this
-                                             // Assign other properties like total amount, shipping information, etc.
-            };
-
-            // Add the order to the database
-            _db.THoaDonBans.Add(hdb);
-            _db.SaveChanges();
-
-            // Add order details to the database
-            foreach (var item in cartItems)
-            {
-                TChiTietHdb cthd = new TChiTietHdb
-                {
-                    MaHoaDon = hdb.MaHoaDon,
-                    MaSp = item.Product.MaSp, // Assuming CartItem has a Product property
-                    SoLuongBan = item.Quantity,
-                    DonGiaBan = item.Product.GiaNhoNhat ?? 0,
-                    // Add other properties as needed
-                };
-                _db.TChiTietHdbs.Add(cthd);
-            }
-
-            // Save changes to the database
-            _db.SaveChanges();
-
-            // Clear the cart in the session
-            HttpContext.Session.Remove(CARTKEY);
-
-            return RedirectToAction("XacNhanDonHang", "Cart");
+            // Trả về view order với thông tin đơn đặt hàng
+            return View("PlaceOrder");
         }
+        
 
-
-
-        List<CartItem> GetCartItems()
+                List<CartItem> GetCartItems()
         {
             var session = HttpContext.Session;
             string jsoncart = session.GetString(CARTKEY);

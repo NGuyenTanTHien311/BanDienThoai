@@ -2,19 +2,20 @@
 @model BanDienThoai.Models.TDanhMucSp
 
 @{
-    ViewData["Title"] = "ThemSanPhamMoi";
+    ViewData["Title"] = "SuaSanPham";
     Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
-    }
 
-<h1>ThemSanPhamMoi</h1>
+}
+
+<h1>SuaSanPham</h1>
 
 <h4>TDanhMucSp</h4>
 <hr />
-
 <div class="row">
     <div class="col-md-4">
-        <form method="post" asp-action="ThemSanPhamMoi">
+        <form method="post" asp-action="SuaSanPham">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MaSp" />
             <div class="form-group">
                 <label asp-for="MaSp" class="control-label"></label>
                 <input asp-for="MaSp" class="form-control" />
@@ -25,7 +26,7 @@
                 <input asp-for="TenSp" class="form-control" />
                 <span asp-validation-for="TenSp" class="text-danger"></span>
             </div>
- 
+
             <div class="form-group">
                 <label asp-for="CanNang" class="control-label"></label>
                 <input asp-for="CanNang" class="form-control" />
@@ -38,11 +39,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="MaHangSx" class="control-label"></label>
-                <select asp-for="MaHangSx" class ="form-control" asp-items="ViewBag.MaHangSx"></select>
+                <select asp-for="MaHangSx" class="form-control" asp-items="ViewBag.MaHangSx"></select>
             </div>
             <div class="form-group">
                 <label asp-for="MaNuocSx" class="control-label"></label>
-                <select asp-for="MaNuocSx" class ="form-control" asp-items="ViewBag.MaNuocSx"></select>
+                <select asp-for="MaNuocSx" class="form-control" asp-items="ViewBag.MaNuocSx"></select>
             </div>
             <div class="form-group">
                 <label asp-for="ThoiGianBaoHanh" class="control-label"></label>
@@ -56,11 +57,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="MaLoai" class="control-label"></label>
-                <select asp-for="MaLoai" class ="form-control" asp-items="ViewBag.MaLoai"></select>
+                <select asp-for="MaLoai" class="form-control" asp-items="ViewBag.MaLoai"></select>
             </div>
             <div class="form-group">
                 <label asp-for="MaDt" class="control-label"></label>
-                <select asp-for="MaDt" class ="form-control" asp-items="ViewBag.MaDt"></select>
+                <select asp-for="MaDt" class="form-control" asp-items="ViewBag.MaDt"></select>
             </div>
             <div class="form-group">
                 <label asp-for="AnhDaiDien" class="control-label"></label>
@@ -72,15 +73,14 @@
                 <input asp-for="GiaNhoNhat" class="form-control" />
                 <span asp-validation-for="GiaNhoNhat" class="text-danger"></span>
             </div>
-            
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="ThemSanPhamMoi">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
