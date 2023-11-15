@@ -102,7 +102,7 @@ namespace BanDienThoai.Areas.Admin.Controllers
             return RedirectToAction("DanhMucSanPham", "HomeAdminControllers");
         }
             #endregion
-            #region QuanLyDonHang
+        #region QuanLyDonHang
             [Route("QuanLyDonHang")]
         public ActionResult QuanLyDonHang(int? page)
         {
@@ -158,6 +158,15 @@ namespace BanDienThoai.Areas.Admin.Controllers
             return RedirectToAction("QuanLyLoaiSP", "HomeAdminControllers");
         }
         #endregion
+        [Route("NhanVien")]
+        public ActionResult NhanVien(int? page)
+        {
+            int pageSize = 14;
+            int pageNumber = page == null || page <= 0 ? 1 : page.Value;
+            var lstsanpham = db.TNhanViens.AsNoTracking().OrderBy(x => x.TenNhanVien);
+            PagedList<TNhanVien> lst = new PagedList<TNhanVien>(lstsanpham, pageNumber, pageSize);
+            return View(lst);
+        }
     }
 
 
