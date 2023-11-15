@@ -10,7 +10,10 @@
 <h3>Loại Sản Phẩm</h3>
 
 <p>
-    <a asp-action="ThemLoaiPhamMoi">Create New</a>
+    <a asp-action="ThemLoaiSPMoi">Create New</a>
+</p>
+<p>
+    @TempData["Message"]
 </p>
 <table class="table">
     <thead>
@@ -74,9 +77,9 @@
             @Html.DisplayFor(modelItem => item.AnhDaiDien)
             </td>*@
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.MaLoai">Edit</a> |
-                    @*<a asp-action="Details" asp-route-id="@item.MaSp">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaSp">Delete</a>*@
+                    @*<a asp-action="Edit" asp-route-id="@item.MaLoai">Edit</a> |*@
+                    @* <a asp-action="Details" asp-route-id="@item.MaLoai">Details</a> |*@
+                    <a asp-action="XoaLoaiSP" asp-route-LoaiSP="@item.MaLoai">Delete</a>
                 </td>
             </tr>
         }
