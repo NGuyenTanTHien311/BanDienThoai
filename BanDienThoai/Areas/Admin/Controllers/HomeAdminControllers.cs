@@ -171,42 +171,6 @@ namespace BanDienThoai.Areas.Admin.Controllers
             PagedList<TNhanVien> lst = new PagedList<TNhanVien>(lstsanpham, pageNumber, pageSize);
             return View(lst);
         }
-        #endregion
-        #region ThemNhanVien
-        [Route("ThemNhanVien")]
-        [HttpGet]
-        public ActionResult ThemNhanVien()
-        {
-            
-            return View();  
-        }
-        [Route("ThemNhanVien")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ThemNhanVien(TNhanVien nhanVien)
-        {
-            if (ModelState.IsValid)
-            {
-                db.TNhanViens.Add(nhanVien);
-                db.SaveChanges();
-                return RedirectToAction("nhanVien");
-            }
-            return View(nhanVien);
-        }
-        #endregion
-        #region XoaNV
-        [Route("XoaNV")]
-        [HttpGet]
-        public IActionResult XoaNV(string nhanVien)
-        {
-            TempData["Message"] = "";
-
-            db.Remove(db.TNhanViens.Find(nhanVien));
-            db.SaveChanges();
-            TempData["Message"] = "Nhân Viên đã được xóa";
-            return RedirectToAction("NhanVien", "HomeAdminControllers");
-        }
-        #endregion
     }
 
 

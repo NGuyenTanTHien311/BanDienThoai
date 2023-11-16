@@ -33,7 +33,7 @@ namespace BanDienThoai.Controllers
             PagedList<TDanhMucSp> lst = new PagedList<TDanhMucSp>(lstsanpham, pageNumber, pageSize);
             return View(lst);
         }
-
+        #region Search
         public IActionResult Search(string searchString, int? page)
         {
             var products = _db.TDanhMucSps.AsQueryable();
@@ -49,7 +49,8 @@ namespace BanDienThoai.Controllers
 
             return View(pagedList);
         }
-
+        #endregion
+        #region San pham theo loai
         public IActionResult SanPhamTheoLoai(string maloai, int? page)
         {
             int pageSize = 8;
@@ -59,7 +60,8 @@ namespace BanDienThoai.Controllers
             ViewBag.maloai = maloai;
             return View(lst);
         }
-
+        #endregion
+        #region CHi tiet san pham
         public IActionResult ChiTietSanPham(string maSp)
         {
             var sanPham = _db.TDanhMucSps.SingleOrDefault(x => x.MaSp == maSp);
@@ -67,7 +69,8 @@ namespace BanDienThoai.Controllers
             ViewBag.anhSanPham = anhSanPham;
             return View(sanPham);
         }
-
+        #endregion
+        #region ProductDetail
         public IActionResult ProductDetail(string maSp)
         {
             var sanPham = _db.TDanhMucSps.SingleOrDefault(x => x.MaSp == maSp);
@@ -79,7 +82,8 @@ namespace BanDienThoai.Controllers
             };
             return View(homeProductDetailViewModel);
         }
-
+        #endregion
+        #region Cart
         public IActionResult Privacy()
         {
             return View();
@@ -137,32 +141,14 @@ namespace BanDienThoai.Controllers
               
             return RedirectToAction(nameof(Cart));
         }
-
+       
         [Route("/Cart", Name = "Cart")]
         public IActionResult Cart()
         {
             var cartItems = GetCartItems();
             return View(cartItems);
         }
-
-        // Trong HomeController
-     
-        public IActionResult PlaceOrder()
-        {
-            // Validate order details
-            
-
-            // Logic xử lý đơn đặt hàng
-            // Tạo đơn đặt hàng từ view model (orderViewModel)
-            
-
-            // Logic xử lý thanh toán (nếu cần)
-
-            // Trả về view order với thông tin đơn đặt hàng
-            return View("PlaceOrder");
-        }
-        
-
+   
                 List<CartItem> GetCartItems()
         {
             var session = HttpContext.Session;
@@ -180,5 +166,8 @@ namespace BanDienThoai.Controllers
             string jsoncart = JsonConvert.SerializeObject(cartItems);
             session.SetString(CARTKEY, jsoncart);
         }
+ #endregion
+
+
     }
 }
