@@ -167,6 +167,7 @@ namespace BanDienThoai.Areas.Admin.Controllers
             PagedList<TNhanVien> lst = new PagedList<TNhanVien>(lstsanpham, pageNumber, pageSize);
             return View(lst);
         }
+        //sua code
     }
 
 
