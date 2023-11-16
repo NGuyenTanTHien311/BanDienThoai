@@ -8,7 +8,9 @@ public partial class TUser
 {
     public string Username { get; set; } = null!;
 
+    [Required(ErrorMessage = " Mật khẩu là bắt buộc.")]
     public string Password { get; set; } = null!;
+
     [DataType(DataType.Password)]
     [Display(Name = "Confirm Password")]
     [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
