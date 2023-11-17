@@ -1,16 +1,9 @@
 ﻿using BanDienThoai.Models;
 using BanDienThoai.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
 using X.PagedList;
 
 namespace BanDienThoai.Controllers
@@ -18,6 +11,7 @@ namespace BanDienThoai.Controllers
     public class HomeController : Controller
     {
         private readonly QlbanVaLiContext _db;
+        
         private const string CARTKEY = "cart";
 
         public HomeController(QlbanVaLiContext db)
@@ -166,7 +160,30 @@ namespace BanDienThoai.Controllers
             string jsoncart = JsonConvert.SerializeObject(cartItems);
             session.SetString(CARTKEY, jsoncart);
         }
- #endregion
+        #endregion
+        #region Thêm Khách hàng
+        [Route("ThemKH")]
+        [HttpGet]
+        public ActionResult ThemKH()
+        {
+            return View();
+        }
+        [Route("ThemKH")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ThemKH(TKhachHang khachHang)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.TKhachHangs.Add(khachHang);
+                _db.SaveChanges();
+                return RedirectToAction("NhanVien");
+            }
+            return View(khachHang);
+        }
+        #endregion
+
+
 
 
     }
